@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "12504:12504"
+    volumes:
+      - .:/app
