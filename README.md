@@ -26,3 +26,6 @@ docker exec -it 8e890bd2e85f /bin/sh
 https://docs.docker.com/get-started/docker_cheatsheet.pdf
 https://devhints.io/docker-compose
 
+
+#vim cheat sheet
+https://devhints.io/vim
