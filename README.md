@@ -29,3 +29,6 @@ https://devhints.io/docker-compose
 
 #vim cheat sheet
 https://devhints.io/vim
+
+#more complete vim guide
+http://www2.phys.canterbury.ac.nz/dept/docs/manuals/unix/DEC_4.0e_Docs/HTML/APS2HDTE/DOCU_008.HTM
