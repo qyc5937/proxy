@@ -1,26 +1,33 @@
-from flask import Flask, request, Response
-import requests
-
-app = Flask(__name__)
+from bs4 import BeautifulSoup
 
 @app.route('/proxy')
 def proxy():
-    # Get the URL from the query parameter `url`
     url = request.args.get('url')
     if not url:
         return "Missing URL parameter", 400
     
     try:
-        # Use requests to fetc`h the URL content
-        resp = requests.get(url)
-        
-        # Return the fetched content to the client
-        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
-        headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
-        return Response(resp.content, resp.status_code, headers)
-    except requests.RequestException as e:
-        return f"Error fetching the URL: {e}", 500
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.binary_location = '/usr/bin/chromium-browser'
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=12504)
+        driver = webdriver.Chrome(options=chrome_options)
+        driver.get(url)
+        driver.implicitly_wait(10)
+        html_content = driver.page_source
+        driver.quit()
+
+        # Modify the HTML content to include a base tag
+        soup = BeautifulSoup(html_content, 'html.parser')
+        if soup.head:
+            base = soup.new_tag('base', href=url)
+            soup.head.insert(0, base)
+            html_content = str(soup)
+
+        return Response(html_content, mimetype='text/html')
+    except Exception as e:
+        return f"Error retrieving content: {e}", 500
 

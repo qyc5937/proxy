@@ -1,7 +1,7 @@
 FROM alpine:3.13
 
 # Install Python and pip
-RUN apk add --no-cache python3 py3-pip vim curl
+RUN apk add --no-cache python3 py3-pip vim curl chromium chromium-chromedriver
 RUN pip3 install --no-cache --upgrade pip setuptools
 
 # Set up a virtual environment

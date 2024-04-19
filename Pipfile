@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 flask = "*"
 requests = "*"
+selenium = "*"
+bs4 = "*"
 
 [dev-packages]
 
