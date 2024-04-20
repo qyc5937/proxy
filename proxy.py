@@ -1,4 +1,10 @@
+from flask import Flask, request, Response
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+import re
+
+app = Flask(__name__)
 
 @app.route('/proxy')
 def proxy():
@@ -6,6 +12,10 @@ def proxy():
     if not url:
         return "Missing URL parameter", 400
     
+    # Simple validation to prevent misuse; adjust the regex as needed
+    if not re.match(r'^https?://', url):
+        return "Invalid URL. Only HTTP/HTTPS URLs are allowed.", 400
+
     try:
         chrome_options = Options()
         chrome_options.add_argument("--headless")
@@ -20,7 +30,6 @@ def proxy():
         html_content = driver.page_source
         driver.quit()
 
-        # Modify the HTML content to include a base tag
         soup = BeautifulSoup(html_content, 'html.parser')
         if soup.head:
             base = soup.new_tag('base', href=url)
@@ -31,3 +40,5 @@ def proxy():
     except Exception as e:
         return f"Error retrieving content: {e}", 500
 
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=12504, debug=True)
