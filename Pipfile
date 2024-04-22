@@ -8,6 +8,8 @@ flask = "*"
 requests = "*"
 selenium = "*"
 bs4 = "*"
+webdriver_manager = "*"
+scrapy = "*"
 
 [dev-packages]
 
