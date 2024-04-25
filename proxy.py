@@ -22,5 +22,5 @@ def proxy():
         return f"Error fetching the URL: {e}", 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=12504)
+    app.run(host='0.0.0.0', port=80)
 
