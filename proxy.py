@@ -27,7 +27,8 @@ def proxy():
             soup.head.insert(0, base)
             html_content = str(soup)
 
-        return Response(html_content, mimetype='text/html')
-    except Exception as e:
-        return f"Error retrieving content: {e}", 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80)
+
 
